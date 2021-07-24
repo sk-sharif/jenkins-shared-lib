@@ -1,0 +1,80 @@
+pipeline {
+    agent any
+
+    environment {
+        SERVICE_NAME = 'fedco-devcentral-api';
+        GCP_PROJECT = 'seismic-lexicon-195122';
+        GCP_SER_ACCT_KEY_FILE = 'fedco-api-service-account.json';
+        GCP_SER_ACCT = 'anilgcloudbuild@seismic-lexicon-195122.iam.gserviceaccount.com';
+        NOTIFICATION_EMAIL='fedco@sidgs.com'
+        APP_PORT= '3003'
+    }
+    stages {
+	    stage('Build'){
+            steps{
+                sh """
+                    #!/bin/bash 
+					echo "*************************************";
+                    echo "Build Docker Image - START ";
+					echo "*************************************";
+        			docker version;
+                    docker build --build-arg APP_ENV=dev . -t gcr.io/${GCP_PROJECT}/${SERVICE_NAME} --no-cache
+					echo "*************************************";
+                    echo "Build Docker Image - COMPLETE ";
+					echo "*************************************";
+                """
+			}   
+        }
+        stage('Deploy-GCP'){
+            steps{
+                sh """
+                    #!/bin/bash 
+					echo "*************************************";
+                    echo "Deploy to Google Cloud Run - START ";
+					echo "*************************************";
+                    export  CLOUDSDK_PYTHON=/usr/bin/python
+                    source /var/lib/google-cloud-sdk/path.bash.inc;
+        			gcloud --version
+					
+					#Login to GCP
+					gcloud auth activate-service-account ${GCP_SER_ACCT} --key-file=${GCP_SER_ACCT_KEY_FILE} --project=${GCP_PROJECT}
+                    docker login -u oauth2accesstoken -p `gcloud auth print-access-token` https://gcr.io
+                    
+					#Push Image to 
+					docker push gcr.io/${GCP_PROJECT}/${SERVICE_NAME}
+					
+					#Deploy
+					gcloud run deploy ${SERVICE_NAME} --platform managed --image gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:latest --allow-unauthenticated --region us-east1 --service-account=${GCP_SER_ACCT} --port ${APP_PORT} 
+
+                    #cleanup docker images
+                    docker rmi `docker images gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:latest -q` -f     
+
+                    echo "*************************************";
+                    echo "Deploy to Google Cloud Run - COMPLETE ";
+					echo "*************************************";
+					"""
+			}   
+        }
+    }
+    post {
+        always {
+            notifyBuild();
+        }
+    }
+}
+def notifyBuild() {
+
+  // Default values
+  def subject = "${currentBuild.result}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+  def summary = "${subject} (${env.BUILD_URL})"
+  def details = """<p> Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p> <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
+
+    emailext(
+    from: """${env.NOTIFICATION_EMAIL}""",
+    to: """${env.NOTIFICATION_EMAIL}""",
+    body: '${DEFAULT_CONTENT}', 
+    mimeType: 'text/html',
+    subject: '${DEFAULT_SUBJECT}',
+    replyTo: '$DEFAULT_REPLYTO'    
+    )
+}
