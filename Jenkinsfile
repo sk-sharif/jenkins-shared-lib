@@ -7,7 +7,7 @@ pipeline {
     stage('Amazonassociate') {
 
       steps {
-	       Test()
+	       Amazonetl()
       }
     }
 	  
