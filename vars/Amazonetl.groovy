@@ -29,6 +29,7 @@ pipeline {
           sh '''
                
                cd config/
+               ls
                 gpg --batch --import $gpg_secret
                 git secret reveal -p $gpg_passphrase
                 '''
