@@ -15,11 +15,11 @@ pipeline {
  }
   stages {
     
-    stage('checkout git') {
-                steps {
-                    git branch: pipelineParams.branch, credentialsId: 'f73bdad1-1506-4ee0-82f1-eab94378d8a5', url: pipelineParams.scmUrl
-                }
-            }
+//     stage('checkout git') {
+//                 steps {
+//                     git branch: pipelineParams.branch, credentialsId: 'f73bdad1-1506-4ee0-82f1-eab94378d8a5', url: pipelineParams.scmUrl
+//                 }
+//             }
    
  
  stage('Building a image for amazon-associate-etl ') {
