@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 @Library('shared-library') _
   Amazonetl{ 
-    branch = 'master'
+    branch = 'test'
     scmUrl = 'https://github.com/sagarshrestha24/etl.git'   
 }
