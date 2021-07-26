@@ -1,18 +1,7 @@
 #!/usr/bin/env groovy
 @Library('shared-library') _
-pipeline {
-  agent any
-
-  stages {
-    stage('Amazonassociate') {
-
-      steps {
-	       hello()
-      }
-    }
-	  
-	  
-  }
+  Amazonetl {
+    branch = 'master'
+    scmUrl = 'https://github.com/sagarshrestha24/jenkins-shared-lib.git'
+    
 }
-
-   

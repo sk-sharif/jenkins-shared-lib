@@ -1,19 +1,19 @@
-def call()
+def call(Map pipelineParams)
 {
     pipeline {
   agent any
-  environment {
+ environment{
     registryCredential = 'docker_id1'
     registry = 'sarosejoshi/apiweb'
     gpg_secret = credentials("gpg-secret")
     gpg_trust = credentials("gpg-trust")
     gpg_passphrase = credentials("gpg-password")
-  }
+ }
   stages {
     
     stage('checkout git') {
                 steps {
-                    git branch: 'test', credentialsId: 'f73bdad1-1506-4ee0-82f1-eab94378d8a5', url: 'https://github.com/sagarshrestha24/etl.git'
+                    git branch: pipelineParams.branch, credentialsId: 'f73bdad1-1506-4ee0-82f1-eab94378d8a5', url: pipelineParams.scmurl
                 }
             }
    
