@@ -21,23 +21,7 @@ pipeline {
                 }
             }
    
- stage('Decrypt a secret file')
-    {
-      steps{
-        
-        script{
-          sh '''
-               
-               cd config/
-               ls
-                gpg --batch --import $gpg_secret
-                git secret reveal -p $gpg_passphrase
-                '''
-                
-          
-        }
-      }
-    }   
+ 
  stage('Building a image for amazon-associate-etl ') {
       when {
         changeset "amazon-associate-etl/docker-images/amazon-associate-service/**"
@@ -141,20 +125,7 @@ pipeline {
       }
       
     }
- stage('Release Tag') {
-      when {
- 	
- 	branch 'master'
-      }
-      steps {
-        script {
-          sh '''
-               cd amazon-associate-etl/docker-images/amazon-associate-service/
-               make push-image '''
-        }
-      }
-    }
-    
-  }
+
+}
 }
 }
