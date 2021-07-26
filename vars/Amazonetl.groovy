@@ -17,7 +17,7 @@ pipeline {
     
     stage('checkout git') {
                 steps {
-                    git credentialsId: 'f73bdad1-1506-4ee0-82f1-eab94378d8a5', url: 'https://github.com/sagarshrestha24/etl.git'
+                    git branch: 'test , master,develop', credentialsId: 'f73bdad1-1506-4ee0-82f1-eab94378d8a5', url: 'https://github.com/sagarshrestha24/etl.git'
                 }
             }
    
