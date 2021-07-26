@@ -7,8 +7,8 @@ def call(body)
 pipeline {
   agent any
  environment{
-    registryCredential = 'docker_id1'
-    registry = 'sarosejoshi/apiweb'
+    registryCredential = 'Docker_cred'
+    
     gpg_secret = credentials("gpg-secret")
     gpg_trust = credentials("gpg-trust")
     gpg_passphrase = credentials("gpg-password")
@@ -21,7 +21,22 @@ pipeline {
                 }
             }
    
-    
+ stage('Decrypt a secret file')
+    {
+      steps{
+        
+        script{
+          sh '''
+               
+               cd config/
+                gpg --batch --import $gpg_secret
+                git secret reveal -p $gpg_passphrase
+                '''
+                
+          
+        }
+      }
+    }   
  stage('Building a image for amazon-associate-etl ') {
       when {
         changeset "amazon-associate-etl/docker-images/amazon-associate-service/**"
