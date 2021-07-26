@@ -1,7 +1,6 @@
 #!/usr/bin/env groovy
 @Library('shared-library') _
-  Amazonetl {
+  Amazonetl( 
     branch = 'master'
-    scmUrl = 'https://github.com/sagarshrestha24/jenkins-shared-lib.git'
-    
-}
+    scmUrl = 'https://github.com/sagarshrestha24/jenkins-shared-lib.git'   
+)
