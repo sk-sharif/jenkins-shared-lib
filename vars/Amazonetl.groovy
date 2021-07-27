@@ -9,9 +9,9 @@ pipeline {
  environment{
     registryCredential = 'Docker_cred'
     
-    gpg_secret = credentials("gpg-secret")
-    gpg_trust = credentials("gpg-trust")
-    gpg_passphrase = credentials("gpg-password")
+//     gpg_secret = credentials("gpg-secret")
+//     gpg_trust = credentials("gpg-trust")
+//     gpg_passphrase = credentials("gpg-password")
  }
   stages {
     
