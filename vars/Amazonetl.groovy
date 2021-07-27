@@ -22,7 +22,7 @@ pipeline {
         script {
           docker.withRegistry('', registryCredential) {
               sh '''
-               cd pipelineParams.name
+               cd ${pipelineParams.name}
                ls
                pwd
                make build-image '''
