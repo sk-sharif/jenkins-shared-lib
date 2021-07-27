@@ -21,11 +21,11 @@ pipeline {
       steps {
         script {
           docker.withRegistry('', registryCredential) {
-              sh '''
+              sh """
                cd ${pipelineParams.repo}/${pipelineParams.docker}/${pipelineParams.folder}
                ls
                pwd
-               make build-image '''
+               make build-image """
 
           }
         }
