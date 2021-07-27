@@ -20,13 +20,13 @@ pipeline {
  
  stage('Building a image for amazon-associate-etl ') {
       when {
-        changeset "${pipelineParams.name}**"
+        changeset "amazon-associate-etl/docker-images/amazon-associate-service/**"
       }
       steps {
         script {
           docker.withRegistry('', registryCredential) {
             sh '''
-               cd ${pipelineParams.name}
+               cd amazon-associate-etl/docker-images/amazon-associate-service/
                make build-image '''
 
           }
