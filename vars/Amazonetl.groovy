@@ -21,7 +21,7 @@ pipeline {
       steps {
         script {
           docker.withRegistry('', registryCredential) {
-              sh '''
+              bash '''
                cd ${pipelineParams.repo}/${pipelineParams.docker}/${pipelineParams.folder}
                ls
                pwd
