@@ -14,10 +14,6 @@ pipeline {
 //     gpg_passphrase = credentials("gpg-password")
  }
   stages {
-    
-    
-   
- 
  stage('Building a image for amazon-associate-etl ') {
       when {
         changeset "${pipelineParams.name}**"
@@ -25,11 +21,10 @@ pipeline {
       steps {
         script {
           docker.withRegistry('', registryCredential) {
-            sh '''ls
-                pwd
-            '''
               sh '''
                cd ${pipelineParams.name}
+               ls
+               pwd
                make build-image '''
 
           }
