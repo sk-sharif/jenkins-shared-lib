@@ -26,7 +26,7 @@ pipeline {
         script {
           docker.withRegistry('', registryCredential) {
             sh '''
-               cd ${pipelineParams.name}
+               cd amazon-associate-etl/docker-images/amazon-associate-service/
                make build-image '''
 
           }
