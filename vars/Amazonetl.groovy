@@ -20,7 +20,7 @@ pipeline {
  
  stage('Building a image for amazon-associate-etl ') {
       when {
-        changeset "${pipelineParams.name}**"
+        changeset "amazon-associate-etl/docker-images/amazon-associate-service/**"
       }
       steps {
         script {
