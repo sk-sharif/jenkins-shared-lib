@@ -18,26 +18,26 @@ pipeline {
     
    
  
- stage('Building a image for amazon-associate-etl ') {
-      when {
-        changeset "amazon-associate-etl/docker-images/amazon-associate-service/**"
-      }
-      steps {
-        script {
-          docker.withRegistry('', registryCredential) {
-            sh '''ls
-                pwd
-            '''
-              sh '''
-               cd amazon-associate-etl/docker-images/amazon-associate-service/
-               make build-image '''
+//  stage('Building a image for amazon-associate-etl ') {
+//       when {
+//         changeset "amazon-associate-etl/docker-images/amazon-associate-service/**"
+//       }
+//       steps {
+//         script {
+//           docker.withRegistry('', registryCredential) {
+//             sh '''ls
+//                 pwd
+//             '''
+//               sh '''
+//                cd amazon-associate-etl/docker-images/amazon-associate-service/
+//                make build-image '''
 
-          }
-        }
+//           }
+//         }
 
-      }
+//       }
       
-    }
+//     }
     stage('Test a image for  amazon-associate-etl ') {
       when {
         changeset "amazon-associate-etl/docker-images/amazon-associate-service/**"
