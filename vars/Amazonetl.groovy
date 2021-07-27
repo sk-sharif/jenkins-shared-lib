@@ -22,7 +22,7 @@ pipeline {
         script {
           docker.withRegistry('', registryCredential) {
               sh """
-//              cd ${pipelineParams.repo}/${pipelineParams.docker}/${pipelineParams.folder}
+
 cd ${pipelineParams.name}
                ls
                pwd
