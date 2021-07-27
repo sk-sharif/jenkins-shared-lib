@@ -34,92 +34,91 @@ cd ${pipelineParams.name}
       }
       
     }
-//     stage('Test a image for  amazon-associate-etl ') {
-//       when {
-//         changeset "amazon-associate-etl/docker-images/amazon-associate-service/**"
-//       }
-//       steps {
-//         script {
+    stage('Test a image for  amazon-associate-etl ') {
+      when {
+        changeset "${pipelineParams.name}**"
+      }
+      steps {
+        script {
           
-//             sh '''
-//                cd amazon-associate-etl/docker-images/amazon-associate-service/
-//                make test-image '''
+            sh """
+               cd ${pipelineParams.name}
+               make test-image """
 
           
-//         }
+        }
 
-//       }
+      }
       
-//     }
-//     stage('Push a image amazon-associate-etl ') {
-//       when {
-//         changeset "amazon-associate-etl/docker-images/amazon-associate-service/**"
-//       }
-//       steps {
-//         script {
-//           docker.withRegistry('', registryCredential) {
-//             sh '''
-//                cd amazon-associate-etl/docker-images/amazon-associate-service/
-//                make push-image '''
+    }
+    stage('Push a image amazon-associate-etl ') {
+      when {
+        changeset "${pipelineParams.name}**"
+      }
+      steps {
+        script {
+          docker.withRegistry('', registryCredential) {
+            sh """
+               cd ${pipelineParams.name}
+               make push-image """
 
-//           }
-//         }
+          }
+        }
 
-//       }
+      }
       
-//     }
-//     stage('Pre-deploy image for amazon-associate-etl ') {
-//       when {
-//         changeset "amazon-associate-etl/docker-images/amazon-associate-service/**"
-//       }
-//       steps {
-//         script {
+    }
+    stage('Pre-deploy image for amazon-associate-etl ') {
+      when {
+        changeset "${pipelineParams.name}**"
+      }
+      steps {
+        script {
           
-//             sh '''
-//                cd amazon-associate-etl/docker-images/amazon-associate-service/
-//                make pre-deploy-image '''
+            sh """
+               cd ${pipelineParams.name}
+               make pre-deploy-image """
 
-//         }
-//         }
+        }
+        }
 
-//       }
+      }
       
     
-//     stage('deploy image for amazon-associate-etl ') {
-//       when {
-//         changeset "amazon-associate-etl/docker-images/amazon-associate-service/**"
-//       }
-//       steps {
-//         script {
-//           docker.withRegistry('', registryCredential) {
-//             sh '''
-//                cd amazon-associate-etl/docker-images/amazon-associate-service/
-//                make deploy-dockerimage '''
+    stage('deploy image for amazon-associate-etl ') {
+      when {
+        changeset "${pipelineParams.name}**"
+      }
+      steps {
+        script {
+          docker.withRegistry('', registryCredential) {
+            sh """
+               cd ${pipelineParams.name}
+               make deploy-dockerimage """
 
-//           }
-//         }
+          }
+        }
 
-//       }
+      }
       
-//     }
-//     stage('Post-deploy image for amazon-associate-etl ') {
-//       when {
-//         branch 'test'
-//         changeset "amazon-associate-etl/docker-images/amazon-associate-service/**"
-//       }
-//       steps {
-//         script {
-        
-//             sh '''
-//                cd amazon-associate-etl/docker-images/amazon-associate-service/
-//                make post-deploy-image '''
+    }
+    stage('Post-deploy image for amazon-associate-etl ') {
+      when {
+        branch 'test'
+        changeset "${pipelineParams.name}**"
+      }
+      steps {
+        script {
+            sh """
+               cd ${pipelineParams.name}
+               make post-deploy-image """
 
           
-//         }
+        }
 
-//       }
+      }
       
-//     }
+    }
 
 }
 }
